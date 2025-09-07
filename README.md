@@ -87,6 +87,8 @@ LLMLOG applies “front‑matter” to conversational text so provenance is port
 Keep 1.0 tiny and stable. Changes should be backwards‑compatible and motivated by real usage.  
 Open an issue with examples and proposed text; small PRs welcome.
 
+**Canonical repo:** https://github.com/essencenetworks/llmlog
+
 ## Contact
 
 - Bugs / features: please open a [GitHub Issue](../../issues/new/choose).
@@ -94,6 +96,8 @@ Open an issue with examples and proposed text; small PRs welcome.
 - Security reports: see [Security policy](.github/SECURITY.md).
 - Contributing: see [CONTRIBUTING.md](CONTRIBUTING.md). SLA: best effort.
 - Web: https://essencenetworks.com
+
+
 
 ---
 
