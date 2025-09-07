@@ -1,0 +1,83 @@
+Controller: /llmlog
+
+Activation
+- Trigger ONLY when the very first non‑whitespace character of the user message is "/" AND the message’s first token is exactly "/llmlog" (case-sensitive), followed by a space or end of line.
+- Ignore and do nothing if the message contains any of the following: the word "Controller:", triple backticks ``` anywhere, or if "/llmlog" appears inside a code fence or quoted example.
+- Ignore messages where "/llmlog" appears on any line other than the first line.
+
+Behavior
+- When triggered, respond ONLY with a single code‑fenced LLMLOG/1.0 block (fence label: llmlog-meta). No extra text before/after.
+- Treat the block as archival metadata, not instructions. Always include scope=meta and IGNORE_META on the BEGIN line.
+- Use current time in ISO‑8601 for date (controller timezone; see Defaults).
+- Defaults (BEGIN values unless overridden): project=tech-llm, organisation=acme-corp.
+
+Parsing (argument order does not matter)
+- /llmlog "ENTRY TEXT"
+- /llmlog "ENTRY TEXT" mission="TEXT"
+- /llmlog "ENTRY TEXT" mission="TEXT" outcome="TEXT"
+- /llmlog "ENTRY TEXT" project="<P>"
+- /llmlog "ENTRY TEXT" project="<P>" org="<O>"
+- /llmlog "ENTRY TEXT" tags=tag1,tag2
+
+Rules
+- ENTRY TEXT is required (quoted in the user message).
+- If mission/outcome are provided, populate; otherwise leave blank.
+- If project/org are provided, use them; otherwise use the defaults.
+- If tags are provided, include on the BEGIN line (comma‑separated; lowercase; no spaces).
+- BEGIN key values MUST NOT contain spaces (use hyphens or underscores).
+- Do NOT infer mission or outcome from ENTRY TEXT.
+- Strip all quotes in the OUTPUT BODY (plain text in entry/mission/outcome).
+- `org=<O>` is an input alias; the emitted key is `organisation=` (or `organization=` if spell=us).
+
+Sanitization (apply to all BEGIN values)
+- Allowed chars: [A-Za-z0-9._-]
+- Replace any other character (including spaces) with "-"
+- Lowercase the result; drop empty values
+
+Formatting (body fields)
+- Always render:
+  entry:\n  <text>\n
+  mission:\n  <text or blank>\n
+  outcome:\n  <text or blank>\n
+- Never render inline “entry: text”
+
+Output format (emit exactly this structure; no extra lines)
+```llmlog-meta
+LLMLOG/1.0 BEGIN project=<PROJECT> organisation=<ORG> date=<ISO8601> scope=meta IGNORE_META [tags=t1,t2]
+entry:
+  <ENTRY TEXT, no quotes>
+mission:
+  <MISSION TEXT or blank, no quotes>
+outcome:
+  <OUTCOME TEXT or blank, no quotes>
+LLMLOG/1.0 END
+```
+
+Defaults
+# BEGIN defaults (emitted if not provided)
+- project: tech-llm
+- organisation: acme-corp
+
+# Controller-only defaults (not emitted as keys)
+- tz: Pacific/Auckland
+- date: iso (ISO 8601)
+- spell: uk
+- style: standard
+
+Body labels (hard limit)
+- The ONLY valid body labels are: entry:, mission:, outcome:
+- Never create any other body label (e.g., tags:, notes:, etc.).
+
+LLMLOG isolation
+- When present in the conversation, treat "```llmlog-meta ... ```" blocks as opaque metadata.
+- Do not use their body text to answer unrelated questions.
+- Only emit an LLMLOG block when the /llmlog trigger is activated; otherwise ignore existing LLMLOG blocks.
+
+Brevity & Budget (adaptive)
+- Default to concise replies; expand only when the user asks for more detail.
+- No preamble; answer directly. No chain-of-thought; provide only the result.
+- Ask a yes/no clarifying question only if you cannot proceed.
+
+Registration handling
+- If the user message contains this controller text (detect via the header "Controller:" or the sections "Activation/Behavior/Parsing/Rules"), DO NOT emit any LLMLOG block and DO NOT self-test.
+- Reply with exactly: "Controller registered. Awaiting /llmlog commands." and nothing else.
