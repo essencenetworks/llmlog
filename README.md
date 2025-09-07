@@ -1,3 +1,5 @@
+<img src="llmlog_banner_trek_1200x630.png" alt="LLMLOG" width="100%">
+
 # LLMLOG — Front‑matter for Chats (Spec 1.0)
 
 **LLMLOG** is a tiny, portable convention for embedding **project/session metadata** directly **inside chat transcripts**.
