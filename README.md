@@ -11,6 +11,8 @@ It’s the simplest way to keep context with your conversations so exports remai
 - Token‑light (minimal formats; brief/minimal variants)
 
 ---
+> **Name note:** This is the LLMLOG/1.0 spec + controller; unrelated to similarly named repos (e.g. XinTT/LLMLog).
+---
 
 ## Quick start — LLM‑first capture
 
