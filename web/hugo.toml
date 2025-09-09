@@ -1,0 +1,11 @@
+# hugo.toml
+baseURL = "https://llmlog.io/"
+title   = "LLMLOG"
+languageCode = "en"
+enableRobotsTXT = true
+
+[pagination]
+  pagerSize = 10
+  # path = "page"           # optional (default)
+  # disableAliases = false  # optional (default)
+

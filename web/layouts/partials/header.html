@@ -1,0 +1,21 @@
+<header>
+  <!-- Banner -->
+  <div class="site-banner" role="img" aria-label="LLMLOG banner">
+    <img
+      src="/images/llmlog_banner_trek_1200x630.png"
+      alt="LLMLOG banner"
+      loading="eager"
+      decoding="async"
+      onerror="this.style.display='none'; this.parentElement.classList.add('fallback');"
+    />
+    <span class="fallback-text">LLMLOG</span>
+  </div>
+
+  <!-- Site title / nav -->
+  {{ if .Site.Title }}
+    <a href="{{ "/" | relURL }}" class="title">
+      <h2>{{ .Site.Title }}</h2>
+    </a>
+  {{ end }}
+  <nav>{{- partial "nav.html" . -}}</nav>
+</header>

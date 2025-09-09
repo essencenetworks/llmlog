@@ -1,0 +1,6 @@
+# config/_default/params.toml
+author = "LLMLOG"
+description = "Notes, logs, and prototypes on LLM practice."
+hideMadeWithLine = true
+ShowReadingTime = true
+
